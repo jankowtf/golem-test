@@ -29,4 +29,4 @@ RUN echo "options(repos = c(CRAN = 'https://cran.rstudio.com/'), download.file.m
 RUN R -e 'install.packages("remotes")'
 RUN Rscript -e 'install.packages("renv")'
 RUN Rscript -e 'renv::consent(provided = TRUE);renv::restore();remotes::install_local(upgrade="never")'
-CMD Rscript -e "options(shiny.fullstacktrace = TRUE);options('shiny.port'=$PORT,shiny.host='0.0.0.0');csm::run_app()"
+CMD Rscript -e "options(shiny.fullstacktrace = TRUE);options('shiny.port'=$PORT,shiny.host='0.0.0.0');golem.test::run_app()"
