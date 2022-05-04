@@ -26,5 +26,6 @@ WORKDIR /build
 
 # install renv & restore packages
 RUN echo "options(repos = c(CRAN = 'https://cran.rstudio.com/'), download.file.method = 'libcurl')" >> /usr/local/lib/R/etc/Rprofile.site
-RUN Rscript -e 'install.packages("renv");renv::consent(provided = TRUE);renv::restore()'
-CMD R -e "remotes::install_local(upgrade='never');options(shiny.fullstacktrace = TRUE);options('shiny.port'=$PORT,shiny.host='0.0.0.0');golem.test::run_app()"
+RUN Rscript -e 'install.packages("remotes");install.packages("renv");renv::consent(provided = TRUE);renv::restore();remotes::install_local(upgrade="never")'
+CMD R -e "options(shiny.fullstacktrace = TRUE);options('shiny.port'=$PORT,shiny.host='0.0.0.0');golem.test::run_app()"
+#CMD R -e "remotes::install_local(upgrade='never');options(shiny.fullstacktrace = TRUE);options('shiny.port'=$PORT,shiny.host='0.0.0.0');golem.test::run_app()"
