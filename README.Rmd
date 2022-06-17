@@ -1,0 +1,106 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# golem.test
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+Testing the deployment of a [golem](https://thinkr-open.github.io/golem/) app on [Heroku](https://www.heroku.com/)
+
+## Installation
+
+You can install the development version of golem.test from [GitHub](https://github.com/) with:
+
+```{r eval=FALSE}
+# install.packages("devtools")
+devtools::install_github("bkm-consultants/golem-test")
+```
+
+In case you are using `renv`
+
+```{r eval=FALSE}
+# install.packages("renv")
+# renv::activate()
+renv::install("bkm-consultants/golem-test")
+```
+
+## [Dev] Building Docker image and running the container locally
+
+### Prerequisites
+
+#### Linux (Ubuntu)
+
+[Docker Engine](https://docs.docker.com/engine/install/ubuntu/)
+
+Alternative: [Docker Desktop](https://docs.docker.com/desktop/linux/install/)
+
+#### macOS
+
+[Docker Desktop](https://docs.docker.com/desktop/mac/install/)    
+
+#### Windows
+
+1. [Windows Subsystem for Linux (WSL/WSL2)](https://docs.microsoft.com/en-us/windows/wsl/install)
+1. [Docker Desktop](https://docs.docker.com/desktop/windows/install/)
+    
+Build Docker image
+
+```{bash, eval=FALSE}
+docker build -t golem-test .
+```
+
+Run container
+
+```{bash, eval=FALSE}
+docker run -d --rm --name golem-test -e PORT=5000 -p 5001:5000 golem-test
+```
+
+Open browser
+
+```{bash, eval=FALSE}
+# Linux/Windows via WSL
+xdg-open http://localhost:5001 
+
+# macOS
+open http://localhost:5001
+```
+
+## [Staging]
+
+TBD
+
+## [Prod] Deployment on [Heroku](heroku.com/)
+
+If it doesn't exist yet create a `heroku.yml` file in your application’s root directory. 
+
+```
+build:
+  docker:
+    web: Dockerfile
+```
+
+Set stack of the app to `container`
+
+```{bash eval=FALSE}
+heroku stack:set container -a golem-test
+```
+
+Push app to Heroku
+
+```{bash eval=FALSE}
+git push origin main
+```
+
