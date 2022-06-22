@@ -17,6 +17,7 @@
 ## Amend DESCRIPTION with dependencies read from package code parsing
 attachment::att_amend_desc()
 renv::install("shinymanager")
+usethis::use_package("shinymanager")
 
 ## Add modules ----
 ## Create a module infrastructure in R/
