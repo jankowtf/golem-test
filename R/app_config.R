@@ -42,3 +42,16 @@ get_golem_config <- function(
     use_parent = use_parent
   )
 }
+
+# User auth ---------------------------------------------------------------
+
+credentials <- data.frame(
+    user = c("dbt-user", "admin"), # mandatory
+    password = c("dbtraining", "nimda"), # mandatory
+    start = c("2022-06-22"), # optinal (all others)
+    expire = c(NA, "2022-12-31"),
+    admin = c(FALSE, TRUE),
+    comment = "Simple and secure authentification mechanism
+  for single ‘Shiny’ applications.",
+    stringsAsFactors = FALSE
+)

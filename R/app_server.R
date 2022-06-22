@@ -5,5 +5,14 @@
 #' @import shiny
 #' @noRd
 app_server <- function(input, output, session) {
-  # Your application server logic
+    # Your application server logic
+    # ### USER AUTH ##########
+
+    res_auth <- shinymanager::secure_server(
+        check_credentials = shinymanager::check_credentials(credentials)
+    )
+
+    output$auth_output <- renderPrint({
+        reactiveValuesToList(res_auth)
+    })
 }
