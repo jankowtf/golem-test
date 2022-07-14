@@ -1,8 +1,8 @@
 docker build -t golem-test-sb .
 
-docker run -d --name golem-test-sb -e PORT=5000 -p 5002:5000 golem-test
+docker run -d --name golem-test-sb -e PORT=3838 -p 3838:3838 golem-test-sb
 
-open http://localhost:5002
+open http://localhost:3838
 
 # --- GCP ---
 docker tag rocker/shiny:4.0.0 eu.gcr.io/dbt-def/shiny:4.0.0

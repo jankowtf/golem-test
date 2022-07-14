@@ -24,6 +24,8 @@ RUN mkdir /build
 ADD . /build
 WORKDIR /build
 
+EXPOSE 3838
+
 # --- Install golem package & run shiny app
 # |---> Old approach (prior to 2022-05-05):
 # |---> 0. Handle repository stuff
