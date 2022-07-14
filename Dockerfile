@@ -48,8 +48,10 @@ RUN echo "options(repos = c(CRAN = 'https://cran.rstudio.com/'), download.file.m
 #RUN install2.r --error --skipinstalled --deps TRUE remotes
 RUN install2.r --error --deps TRUE remotes
 # |---> 2. Install golem package
-RUN Rscript -e "renv::deactivate();remotes::install_local(upgrade='never')"
+RUN Rscript -e "remotes::install_local(upgrade='never')"
+#RUN Rscript -e "renv::deactivate();remotes::install_local(upgrade='never')"
 # |---> 3. Run shiny app
-CMD R -e "renv::deactivate();options(shiny.port = ${PORT}, shiny.host='0.0.0.0', shiny.fullstacktrace = TRUE);golem.test::run_app()"
+CMD R -e "options(shiny.port = ${PORT}, shiny.host='0.0.0.0', shiny.fullstacktrace = TRUE);golem.test::run_app()"
+#CMD R -e "renv::deactivate();options(shiny.port = ${PORT}, shiny.host='0.0.0.0', shiny.fullstacktrace = TRUE);golem.test::run_app()"
 #CMD R -e "options(shiny.port = ${PORT}, shiny.host='0.0.0.0', shiny.fullstacktrace = TRUE);golem.test::run_app()"
 #CMD ["R", "-e", "options(shiny.port = '${PORT}', shiny.host='0.0.0.0', shiny.fullstacktrace = TRUE);golem.test::run_app()"]
