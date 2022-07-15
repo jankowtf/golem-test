@@ -1,3 +1,4 @@
+LABEL dockerfile_version="v0.2"
 FROM rocker/r-ver:4.1.2
 
 ENV R_REMOTES_NO_ERRORS_FROM_WARNINGS=true
@@ -39,4 +40,4 @@ RUN install2.r --error --skipinstalled --deps TRUE remotes
 #RUN install2.r --error --deps TRUE remotes
 # |---> 2. Install golem package
 RUN Rscript -e "remotes::install_local(upgrade='never')"
-CMD Rscript docker_run_app.R
+CMD ["Rscript", "docker_run_app.R"]
