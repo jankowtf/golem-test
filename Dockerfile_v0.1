@@ -35,8 +35,8 @@ EXPOSE 3838
 RUN echo "options(repos = c(CRAN = 'https://cran.rstudio.com/'), download.file.method = 'libcurl', Ncpus = 4)"\
     >> /usr/local/lib/R/etc/Rprofile.site
 # |---> 1. Install {remotes}
-RUN install2.r --error --skipinstalled --deps TRUE remotes
-#RUN install2.r --error --deps TRUE remotes
+#RUN install2.r --error --skipinstalled --deps TRUE remotes
+RUN install2.r --error --deps TRUE remotes
 # |---> 2. Install golem package
 RUN Rscript -e "remotes::install_local(upgrade='never')"
-CMD ["R", "docker_run_app.R"]
+CMD ["R", "-e", "options(shiny.port = as.numeric(Sys.getenv('PORT')), shiny.host='0.0.0.0', shiny.fullstacktrace = TRUE);golem.test::run_app()"]
