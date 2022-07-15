@@ -39,4 +39,4 @@ RUN install2.r --error --skipinstalled --deps TRUE remotes
 #RUN install2.r --error --deps TRUE remotes
 # |---> 2. Install golem package
 RUN Rscript -e "remotes::install_local(upgrade='never')"
-CMD R docker_run_app.R
+CMD Rscript docker_run_app.R
