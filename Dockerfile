@@ -1,5 +1,5 @@
-LABEL dockerfile_version="v0.2"
 FROM rocker/r-ver:4.1.2
+LABEL dockerfile_version="v0.2"
 
 ENV R_REMOTES_NO_ERRORS_FROM_WARNINGS=true
 
