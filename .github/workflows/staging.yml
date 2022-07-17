@@ -12,6 +12,23 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: [HEROKU] Login to Heroku Container registry
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku container:login
+    - name: [HEROKU] Build and push
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME_STAGING }} web
+    - name: [HEROKU] Release
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME_STAGING }} web
+
+  build-github:
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
@@ -41,17 +58,3 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-
-    - uses: actions/checkout@v1
-    - name: [HEROKU] Login to Heroku Container registry
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:login
-    - name: [HEROKU] Build and push
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME_STAGING }} web
-    - name: [HEROKU] Release
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME_STAGING }} web
