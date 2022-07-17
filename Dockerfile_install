@@ -6,6 +6,7 @@ FROM rocker/r-ver:${R_VERSION}
 RUN apt-get update -qq && apt-get -y --no-install-recommends install \
     git-core \
     libcurl4-openssl-dev \
+    libfontconfig1-dev \
     libgit2-dev \
     libicu-dev \
     libpng-dev \
@@ -20,6 +21,7 @@ RUN apt-get update -qq && apt-get -y --no-install-recommends install \
 
 # libxml2-dev -> xml2
 # cmake -> nloptr
+# libfontconfig1-dev -> systemfonts
 
 # --- Update system libraries
 RUN apt-get update && \
