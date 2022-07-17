@@ -31,5 +31,5 @@ RUN mkdir -p /home/shiny/renv/cache
 WORKDIR /home/shiny/project
 COPY . .
 
-RUN Rscript -e "Sys.setenv(RENV_PATHS_CACHE='/home/shiny/renv/cache');renv::restore(confirm=FALSE);rent::isolate()"
+RUN Rscript -e "Sys.setenv(RENV_PATHS_CACHE='/home/shiny/renv/cache');renv::restore(confirm=FALSE);renv::isolate()"
 
