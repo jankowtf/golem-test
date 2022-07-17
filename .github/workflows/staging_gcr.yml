@@ -17,7 +17,7 @@ jobs:
       id: auth
       uses: google-github-actions/auth@v0
       with:
-        workload_identity_provider: 'projects/558965742626/locations/global/workloadIdentityPools/my-pool-2/providers/my-provider'
+        workload_identity_provider: 'projects/558965742626/locations/global/workloadIdentityPools/pool-001/providers/provider-001'
         service_account: 'dbt-def-sa-admin@dbt-def-project-001.iam.gserviceaccount.com'
 
     - name: 'Set up Cloud SDK'
@@ -30,6 +30,7 @@ jobs:
     permissions: #make sure we add permission to read and write package
       contents: read
       packages: write
+      id-token: write
     steps:
       - name: Checkout Code
         uses: actions/checkout@v1 #checkouts your repo, so this workflow can access it
