@@ -16,6 +16,11 @@ jobs:
           create_credentials_file: 'true'
           workload_identity_provider: 'projects/558965742626/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
           service_account: 'dbt-def-sa-admin@dbt-def-project-001.iam.gserviceaccount.com'
+
+    # Install gcloud, `setup-gcloud` automatically picks up authentication from `auth`.
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v0'
+
     - id: 'gcloud'
       name: 'gcloud'
       run: |-
