@@ -1,10 +1,14 @@
-FROM rocker/r-ver:4.1.2
+#FROM rocker/r-ver:4.1.2
+FROM ghcr.io/rappster/golem-test_deps:deps
 
 # --- Meta ---
 LABEL dockerfile_version="v0.3"
 EXPOSE 3838
 ENV R_REMOTES_NO_ERRORS_FROM_WARNINGS=true
-ENV APP_DIR=/app
+ENV APP_DIR=/home/shiny/project
+
+# NEW
+ENV RENV_PATHS_CACHE=/home/shiny/renv/cache
 
 # system libraries of general use
 # --- Install debian packages
