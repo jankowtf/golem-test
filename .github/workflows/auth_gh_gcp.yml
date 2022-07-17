@@ -4,6 +4,7 @@ on: [push]
 
 env:
   SA_NAME: gh-runner
+  PROJECT_NUMBER: 558965742626
 
 jobs:
   auth:
@@ -11,10 +12,6 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - shell: bash
-        run: echo ${ACTIONS_ID_TOKEN_REQUEST_URL} > url.txt
-      - shell: bash
-        run: echo ${ACTIONS_ID_TOKEN_REQUEST_TOKEN} > token.txt
       - id: idtoken
         shell: bash
         run: |
