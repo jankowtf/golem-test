@@ -6,8 +6,8 @@ on:
       - staging
 
 env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}-staging
+  REGISTRY: registry.heroku.com
+  IMAGE_NAME: golem-test-staging/web
   IMAGE_TAG: 0.0.0.9000
 
 jobs:
@@ -30,8 +30,7 @@ jobs:
             file: Dockerfile
             build-args: R_VERSION=4.1.2
             push: true
-            #tags: ${{ steps.meta.outputs.tags }}
-            tags: ${{ env.IMAGE_TAG }}
+            tags: ${{ steps.meta.outputs.tags }}-${{ env.IMAGE_TAG }}
             labels: ${{ steps.meta.outputs.labels }}
         - name: Release
           env:
