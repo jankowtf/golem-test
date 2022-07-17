@@ -19,7 +19,7 @@ jobs:
       id-token: write
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v1 #checkouts your repo, so this workflow can access it
+        uses: actions/checkout@v3 #checkouts your repo, so this workflow can access it
 
 #      - name: Authenticate to GCP (DEPRECATED)
 #        env:
@@ -42,9 +42,9 @@ jobs:
       - name: Build Docker Image
         run: docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .
 
-      - name: Configure Docker Client
-        run:  |-
-          gcloud auth configure-docker --quiet --access-token-file="${{ steps.auth.outputs.credentials_file_path }}"
+      #- name: Configure Docker Client
+      #  run:  |-
+      #    gcloud auth configure-docker --quiet --access-token-file="${{ steps.auth.outputs.credentials_file_path }}"
 
       - name: Push Docker Image to Container Registry GCR
         run: |-
