@@ -18,7 +18,7 @@ jobs:
 #      env:
 #        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 #      run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME_STAGING }} web
-    - name: Build and push docker image
+      - name: Build and push docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
