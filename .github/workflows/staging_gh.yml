@@ -33,12 +33,22 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Login to GCR
-        uses: google-github-actions/setup-gcloud@v0.3.0 #checkouts GCR repo, so this workflow can access it
+      #- name: Login to GCR
+      #  uses: google-github-actions/setup-gcloud@v0.3.0 #checkouts GCR repo, so this workflow can access it
+      #  with:
+      #    service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+      #    project_id: ${{ env.PROJECT_ID }}
+      #    export_default_credentials: true
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v0'
         with:
-          service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
-          project_id: ${{ env.PROJECT_ID }}
-          export_default_credentials: true
+          credentials_json: '${{ secrets.SERVICE_ACCOUNT_KEY }}'
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v0'
+
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
 
       - name: Build Docker Image for GCR
         run: docker build -t $IMAGE_NAME:$IMAGE_TAG .
