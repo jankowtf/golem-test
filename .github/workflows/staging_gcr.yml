@@ -8,6 +8,7 @@ env:
   IMAGE_NAME: ${{ github.repository }}
   IMAGE_TAG: "0.0.0.9000"
   PROJECT_ID: dbt-def-project-001
+  SA: gh-runner
 
 jobs:
   deploy:
@@ -36,7 +37,7 @@ jobs:
         with:
           create_credentials_file: 'true'
           workload_identity_provider: 'projects/558965742626/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
-          service_account: 'gh-runner@dbt-def-project-001.iam.gserviceaccount.com'
+          service_account: '{{ env.SA }}@dbt-def-project-001.iam.gserviceaccount.com'
 
       - name: Build Docker Image
         run: docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .
@@ -47,5 +48,5 @@ jobs:
 
       - name: Push Docker Image to Container Registry GCR
         run: |-
-          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} gcr.io/${{ PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-          docker push gcr.io/${{ PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
