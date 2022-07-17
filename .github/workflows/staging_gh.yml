@@ -45,6 +45,5 @@ jobs:
           file: Dockerfile
           build-args: R_VERSION=4.1.2
           push: true
-          #tags: ${{ steps.meta.outputs.tags }}
-          tags: ${{ env.IMAGE_TAG }}
+          tags: ${{ steps.meta.outputs.tags }}.${{ env.IMAGE_TAG }}
           labels: ${{ steps.meta.outputs.labels }}
