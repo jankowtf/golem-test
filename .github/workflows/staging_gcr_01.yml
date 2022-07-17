@@ -42,12 +42,12 @@ jobs:
       - name: Build Docker Image
         run: docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .
 
-      - name: Configure Docker Client
-        run:  |-
-          gcloud auth configure-docker --quiet #authenticate to gcr
-          gcloud auth login
+      #- name: Configure Docker Client
+      #  run:  |-
+      #    gcloud auth configure-docker --quiet #authenticate to gcr
 
       - name: Push Docker Image to Container Registry GCR
         run: |-
+          gcloud auth login --brief --cred-file="${{ steps.auth.outputs.credentials_file_path }}"
           docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} eu.gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
           docker push eu.gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
