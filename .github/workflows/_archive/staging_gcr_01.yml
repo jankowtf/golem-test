@@ -1,0 +1,29 @@
+name: Release to GCR (v1)
+
+on:
+  push:
+    branches: ["staging"]
+
+env:
+  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_TAG: "0.0.0.9000"
+  PROJECT_ID: dbt-def-project-001
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest #run this workflow on ubuntu instance
+    permissions: #make sure we add permission to read and write package
+      contents: read
+      packages: write
+      id-token: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+      - name: Build and push
+        uses: RafikFarhad/push-to-gcr-github-action@v4.1
+        with:
+          gcloud_service_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+          registry: eu.gcr.io
+          project_id: ${{ env.PROJECT_ID }}
+          image_name: ${{ env.IMAGE_NAME }}
+          image_tag: ${{ env.IMAGE_TAG }}
