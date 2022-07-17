@@ -1,4 +1,4 @@
-name: Publish to GCR
+name: GCR auth
 
 on: [push]
 
@@ -31,7 +31,7 @@ jobs:
               -H 'Content-Type: text/json; charset=utf-8' \
               -d @- <<EOF | jq -r .access_token
               {
-                  "audience"           : "//iam.googleapis.com/projects/${{ secrets.PROJECT_NUMBER }}/locations/global/workloadIdentityPools/pool-001/providers/provider-001",
+                  "audience"           : "//iam.googleapis.com/projects/${{ secrets.PROJECT_NUMBER }}/locations/global/workloadIdentityPools/github-pool/providers/github-provider",
                   "grantType"          : "urn:ietf:params:oauth:grant-type:token-exchange",
                   "requestedTokenType" : "urn:ietf:params:oauth:token-type:access_token",
                   "scope"              : "https://www.googleapis.com/auth/cloud-platform",
