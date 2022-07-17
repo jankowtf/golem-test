@@ -1,6 +1,6 @@
 name: GCR auth
 
-on: [push]
+on:
 
 env:
   SA_NAME: gh-runner

@@ -1,0 +1,21 @@
+name: GCR auth
+
+on: [push]
+
+env:
+  SA_NAME: gh-runner
+  PROJECT_NUMBER: 558965742626
+
+jobs:
+  auth:
+    runs-on: self-hosted
+    permissions:
+      id-token: write
+    steps:
+      - id: auth
+      name: Authenticate to GCP
+      uses: google-github-actions/auth@v0
+      with:
+          create_credentials_file: 'true'
+          workload_identity_provider: 'projects/558965742626/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
+          service_account: 'gh-runner@dbt-def-project-001.iam.gserviceaccount.com'
