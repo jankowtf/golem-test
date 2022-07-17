@@ -1,4 +1,4 @@
-name: Release to GCR (v2)
+name: Release (GCR:v2)
 
 on:
   push:
