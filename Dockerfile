@@ -43,6 +43,7 @@ RUN echo "options(repos = c(CRAN = 'https://cran.rstudio.com/'), download.file.m
     >> /usr/local/lib/R/etc/Rprofile.site
 
 # ---|---> 1. Install local package
+RUN echo ls -lf /home/shiny/renv/cache
 RUN Rscript -e "renv::install('.')"
 
 # --- Run shiny app
