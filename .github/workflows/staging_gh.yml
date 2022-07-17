@@ -10,9 +10,10 @@ on:
     branches: ['staging']
 
 env:
-  REGISTRY: ghcr.io
+  REGISTRY_GH: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
   IMAGE_TAG: "0.0.0.9000"
+  PROJECT_ID_GCP: dbt-def-project-001
 
 jobs:
   build-and-push-image:
@@ -25,12 +26,31 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Log in to the container registry
+      - name: Login to GHCR
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
-          registry: ${{ env.REGISTRY }}
+          registry: ${{ env.REGISTRY_GH }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Login to GCR
+        uses: google-github-actions/setup-gcloud@v0.3.0 #checkouts GCR repo, so this workflow can access it
+        with:
+          service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+          project_id: ${{ env.PROJECT_ID }}
+          export_default_credentials: true
+
+      - name: Build Docker Image for GCR
+        run: docker build -t $IMAGE_NAME:$IMAGE_TAG .
+
+      - name: Configure Docker Client
+        run:  |-
+          gcloud auth configure-docker --quiet #authenticate to gcr
+
+      - name: Push Docker Image to Container Registry GCR
+        run: |-
+          docker tag $IMAGE_NAME:$IMAGE_TAG eu.gcr.io/$PROJECT_ID/$IMAGE_NAME:$IMAGE_TAG
+          docker push eu.gcr.io/$PROJECT_ID/$IMAGE_NAME:$IMAGE_TAG
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
@@ -43,7 +63,7 @@ jobs:
         with:
           context: .
           file: Dockerfile
-          build-args: R_VERSION=4.1.2
+ #         build-args: R_VERSION=4.1.2
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
