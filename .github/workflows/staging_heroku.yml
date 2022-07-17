@@ -5,6 +5,11 @@ on:
     branches:
       - staging
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}-staging
+  IMAGE_TAG: 0.0.0.9000
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,8 +30,8 @@ jobs:
             file: Dockerfile
             build-args: R_VERSION=4.1.2
             push: true
-            tags: ${{ steps.meta.outputs.tags }}
-            #tags: ${{ env.IMAGE_TAG }}
+            #tags: ${{ steps.meta.outputs.tags }}
+            tags: ${{ env.IMAGE_TAG }}
             labels: ${{ steps.meta.outputs.labels }}
         - name: Release
           env:
