@@ -27,13 +27,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Authenticate to GCP
-        id: auth
-        uses: google-github-actions/auth@v0
-        with:
-          create_credentials_file: 'true'
-          workload_identity_provider: 'projects/558965742626/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
-          service_account: 'gh-runner@dbt-def-project-001.iam.gserviceaccount.com'
+      # - name: Authenticate to GCP
+      #   id: auth
+      #   uses: google-github-actions/auth@v0
+      #   with:
+      #     create_credentials_file: 'true'
+      #     workload_identity_provider: 'projects/558965742626/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
+      #     service_account: 'gh-runner@dbt-def-project-001.iam.gserviceaccount.com'
 
       - name: Login to GHCR
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9

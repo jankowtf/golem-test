@@ -44,7 +44,8 @@ RUN echo "options(repos = c(CRAN = 'https://cran.rstudio.com/'), download.file.m
 
 # ---|---> 1. Install local package
 RUN echo ls -lf /home/shiny/renv/cache
-RUN Rscript -e "renv::install('.')"
+#RUN Rscript -e "renv::install('.')"
+RUN Rscript -e "remotes::install_local(upgrade = 'never')"
 
 # --- Run shiny app
 CMD ["Rscript", "docker_run_app.R"]
