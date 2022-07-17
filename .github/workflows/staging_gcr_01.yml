@@ -1,4 +1,4 @@
-name: Release to GCR
+name: Release to GCR (v1)
 
 on:
   push:
@@ -45,8 +45,9 @@ jobs:
       - name: Configure Docker Client
         run:  |-
           gcloud auth configure-docker --quiet #authenticate to gcr
+          gcloud auth login
 
       - name: Push Docker Image to Container Registry GCR
         run: |-
-          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-          docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} eu.gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          docker push eu.gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
