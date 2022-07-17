@@ -1,0 +1,35 @@
+ARG R_VERSION
+FROM rocker/r-ver:${R_VERSION}
+
+# system libraries of general use
+# --- Install debian packages
+RUN apt-get update -qq && apt-get -y --no-install-recommends install \
+    git-core \
+    libcurl4-openssl-dev \
+    libgit2-dev \
+    libicu-dev \
+    libpng-dev \
+    libpq-dev \
+    libssl-dev \
+    libxml2-dev \
+    cmake \
+    make \
+    pandoc \
+    pandoc-citeproc \
+    python
+
+# libxml2-dev -> xml2
+# cmake -> nloptr
+
+# --- Update system libraries
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get clean
+
+RUN mkdir -p /home/shiny/renv/cache
+
+WORKDIR /home/shiny/project
+COPY . .
+
+RUN Rscript -e "Sys.setenv(RENV_PATHS_CACHE='/home/shiny/renv/cache');renv::restore(confirm=FALSE);rent::isolate()"
+

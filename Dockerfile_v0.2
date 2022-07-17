@@ -1,10 +1,10 @@
 FROM rocker/r-ver:4.1.2
 
 # --- Meta ---
-LABEL dockerfile_version="v0.3"
+LABEL dockerfile_version="v0.2"
 EXPOSE 3838
+
 ENV R_REMOTES_NO_ERRORS_FROM_WARNINGS=true
-ENV APP_DIR=/app
 
 # system libraries of general use
 # --- Install debian packages
@@ -17,7 +17,6 @@ RUN apt-get update -qq && apt-get -y --no-install-recommends install \
     libpq-dev \
     libssl-dev \
     libxml2-dev \
-    cmake \
     make \
     pandoc \
     pandoc-citeproc \
@@ -29,17 +28,18 @@ RUN apt-get update && \
     apt-get clean
 
 # --- Copy all files and folders into docker and set the working dir
-#WORKDIR /build
-WORKDIR $APP_DIR
-COPY . .
+RUN mkdir /build
+ADD . /build
+WORKDIR /build
 
-# --- Install local package
+
+# --- Install golem package & run shiny app
 # |---> 0. Handle repository stuff
 RUN echo "options(repos = c(CRAN = 'https://cran.rstudio.com/'), download.file.method = 'libcurl', Ncpus = 4)"\
     >> /usr/local/lib/R/etc/Rprofile.site
-
-# ---|---> 1. Install local package
-RUN Rscript -e "renv::install('.')"
-
-# --- Run shiny app
+# |---> 1. Install {remotes}
+RUN install2.r --error --skipinstalled --deps TRUE remotes
+#RUN install2.r --error --deps TRUE remotes
+# |---> 2. Install golem package
+RUN Rscript -e "remotes::install_local(upgrade='never')"
 CMD ["Rscript", "docker_run_app.R"]
