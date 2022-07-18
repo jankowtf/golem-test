@@ -59,13 +59,13 @@ Alternative: [Docker Desktop](https://docs.docker.com/desktop/linux/install/)
 Build Docker image
 
 ```{bash, eval=FALSE}
-docker build -t golem-test .
+docker buildx build --platform linux/amd64 -t golem-test .
 ```
 
 Run container
 
 ```{bash, eval=FALSE}
-docker run -d --rm --name golem-test -e PORT=5000 -p 5001:5000 golem-test
+docker run -d --rm --name golem-test -e PORT=3838 -p 3838:3838 golem-test
 ```
 
 Open browser
@@ -78,29 +78,79 @@ xdg-open http://localhost:5001
 open http://localhost:5001
 ```
 
-## [Staging]
+## [Staging] Deployment on [Heroku](heroku.com/)
 
-TBD
+Login to container registry
+
+```{bash eval=FALSE}
+heroku container:login
+```
+
+Ensure that the stack of the app is set to `container`
+
+```{bash eval=FALSE}
+heroku stack:set container -a golem-test-staging
+```
+
+Build the image and push to container registry
+
+```{bash eval=FALSE}
+heroku container:push -a golem-test-staging web
+```
+
+Release the image to your app
+
+```{bash eval=FALSE}
+heroku container:release -a golem-test-staging web
+```
+
+Open website
+
+```{bash eval=FALSE}
+heroku open
+```
+
+Check the logs
+
+```{bash eval=FALSE}
+heroku logs -a golem-test-staging
+```
+
 
 ## [Prod] Deployment on [Heroku](heroku.com/)
 
-If it doesn't exist yet create a `heroku.yml` file in your application’s root directory. 
+Login to container registry
 
-```
-build:
-  docker:
-    web: Dockerfile
+```{bash eval=FALSE}
+heroku container:login
 ```
 
-Set stack of the app to `container`
+Ensure that the stack of the app is set to `container`
 
 ```{bash eval=FALSE}
 heroku stack:set container -a golem-test
 ```
 
-Push app to Heroku
+Build the image and push to container registry
 
 ```{bash eval=FALSE}
-git push origin main
+heroku container:push -a golem-test web
 ```
 
+Release the image to your app
+
+```{bash eval=FALSE}
+heroku container:release -a golem-test web
+```
+
+Open website
+
+```{bash eval=FALSE}
+heroku open
+```
+
+Check the logs
+
+```{bash eval=FALSE}
+heroku logs -a golem-test
+```
