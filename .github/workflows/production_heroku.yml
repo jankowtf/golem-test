@@ -1,13 +1,13 @@
-name: Staging (Heroku)
+name: Production (Heroku)
 
 on:
   push:
     branches:
-      - staging
+      - main
 
 env:
   REGISTRY: registry.heroku.com
-  IMAGE_NAME: golem-test-staging/web
+  IMAGE_NAME: golem-test/web
   IMAGE_TAG: 0.0.0.9000
 
 jobs:
